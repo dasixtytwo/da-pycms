@@ -1,0 +1,87 @@
+{% extends 'admin/layout_admin.html' %}
+
+
+{% block admin_content %}
+<form method='POST' class='form' enctype='multipart/form-data' style="width: 100%;">
+    <div class="row flex-row">
+        <div class="col-xl-12 col-md-6">
+            <div class="widget has-shadow">
+                <div class="widget-header bordered no-actions d-flex align-items-center">
+                    <h4>{{ widget.title if widget }}</h4>
+                </div>
+                <div class="widget-body">
+                    <div class="form-group row mb-3">
+                        <div class="col-xl-8">
+                            <label class="form-control-label">Title<span class="text-danger ml-2">*</span></label>
+                            <input type="text"  name='widget-title' value='{{ widget.title if widget }}' class="form-control">
+                        </div>
+                        <div class="col-xl-4">
+                            <label class="form-control-label">Icon<span class="text-danger ml-2">*</span></label>
+                            <input type="text"  name='widget-icon' value='{{ widget.icon if widget }}' class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group row mb-3">
+                        <div class="col-xl-12">
+                            <label class="form-control-label">Subtitle<span class="text-danger ml-2">*</span></label>
+                            <input type="text"  name='widget-subtitle' value='{{ widget.subtitle if widget }}' class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group row mb-3">
+                        <div class="col-xl-4">
+                            <label class="form-control-label">Date Start<span class="text-danger ml-2">*</span></label>
+                            <input type="text"  name='widget-date-start' value='{{ widget.date_start if widget }}' class="form-control">
+                        </div>
+                        <div class="col-xl-4">
+                            <label class="form-control-label">Date End<span class="text-danger ml-2">*</span></label>
+                            <input type="text"  name='widget-date-end' value='{{ widget.date_end if widget }}' class="form-control">
+                        </div>
+                        <div class="col-xl-4">
+                            {% if pages %}
+                                <label class="form-control-label">Pages<span class="text-danger ml-2">*</span></label>
+                                <select name="widget-page" class="custom-select form-control">
+                                    <option {% if not widget.page %}selected{% endif %} value=''>No group selected</option>
+                                    {% for page in pages %}
+                                        <option {% if widget.page == page.name %}selected{% endif %} value='{{ page.name }}'>{{ page.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="form-group row mb-3">
+                        <div class="col-xl-12">
+                            <label class="form-control-label">Content<span class="text-danger ml-2">*</span></label>
+                            <textarea id="post-content-editor" class='form-control' name='widget-content'>{{ widget.content if widget else '' }}</textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-12">
+            <div class="widget has-shadow">
+                <div class="widget-body">
+                    <!-- Start Buttons -->
+                    <div class="text-right">
+                        {% if widget %}
+                            <input type='submit' name='delete' class='btn btn-gradient-01' value='Delete'/>
+                        {% endif %}
+                        <input type='submit' name='submit' class='btn btn-shadow btn-ok' value='Save Changes'/>
+                    </div>
+                    <!-- End Buttons -->
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+{% endblock %}
+{% block scripts %}
+    <script type='text/javascript' src='{{ url_for('static', filename='js/vendors/ckeditor/ckeditor.js') }}'></script>
+    <script>
+      CKEDITOR.replace('post-content-editor', {
+          height: 260
+      })
+      CKEDITOR.config.allowedContent = true;
+      CKEDITOR.config.autoParagraph = false;
+      CKEDITOR.config.extraAllowedContent = 'span(*)';
+      CKEDITOR.dtd.$removeEmpty.span = 0;
+    </script>
+{% endblock %}

@@ -1,0 +1,128 @@
+{% extends 'admin/layout_admin.html' %}
+
+{% block admin_content %}
+<div class="row flex-row">
+    <div class="col-xl-3">
+        <!-- Begin Widget -->
+        <div class="widget has-shadow">
+            <div class="widget-body">
+                <div class="mt-5">
+                    {% if user.avatar %}
+                        <img style='width: 100px;' alt="..." src='/uploads/{{ user.avatar.filename }}' style="width: 120px;" class="avatar rounded-circle d-block mx-auto" />
+                    {% else %}
+                        <img src="../static/image/avatar/avatar-01.jpg" alt="..." style="width: 120px;" class="avatar rounded-circle d-block mx-auto">
+                    {% endif %}
+                </div>
+                <h3 class="text-center mt-3 mb-1">{{ profile.firstName }}  {{ profile.lastName }}</h3>
+                <p class="text-center">{{ profile.email }}</p>
+                <div class="em-separator separator-dashed"></div>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="javascript:void(0)"><i class="la la-bell la-2x align-middle pr-2"></i>Notifications</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="javascript:void(0)"><i class="la la-bolt la-2x align-middle pr-2"></i>Activity</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="javascript:void(0)"><i class="la la-comments la-2x align-middle pr-2"></i>Messages</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="javascript:void(0)"><i class="la la-bar-chart la-2x align-middle pr-2"></i>Statistics</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="javascript:void(0)"><i class="la la-clipboard la-2x align-middle pr-2"></i>Tasks</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/account-settings"><i class="la la-gears la-2x align-middle pr-2"></i>Settings</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="javascript:void(0)"><i class="la la-question-circle la-2x align-middle pr-2"></i>FAQ</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- End Widget -->
+    </div>
+    <div class="col-xl-9">
+        <div class="widget has-shadow">
+            <div class="widget-header bordered no-actions d-flex align-items-center">
+                <h4>{{ newOrUpdate }} Profile</h4>
+            </div>
+            <div class="widget-body">
+                <div class="col-10 ml-auto">
+                    <div class="section-title mt-3 mb-3">
+                        <h4>01. Personal Informations</h4>
+                    </div>
+                </div>
+                <form method='POST' class='form-horizontal' enctype='multipart/form-data'>
+                    <input type="hidden" name="user_id" class="form-control" value="{{ user.id }}">
+                    <div class="form-group row d-flex align-items-center mb-5">
+                        <label class="col-lg-2 form-control-label d-flex justify-content-lg-end">First Name</label>
+                        <div class="col-lg-6">
+                            <input type="text" class='form-control' name="profile-firstname" value="{{ profile.firstName if profile }}">
+                        </div>
+                    </div>
+                    <div class="form-group row d-flex align-items-center mb-5">
+                        <label class="col-lg-2 form-control-label d-flex justify-content-lg-end">Last Name</label>
+                        <div class="col-lg-6">
+                            <input type="text" class='form-control' name="profile-lastname" value="{{ profile.lastName if profile }}">
+                        </div>
+                    </div>
+                    <div class="form-group row d-flex align-items-center mb-5">
+                        <label class="col-lg-2 form-control-label d-flex justify-content-lg-end">Email</label>
+                        <div class="col-lg-6">
+                            <input type="text" class='form-control' name="profile-email" value="{{ profile.email if profile }}">
+                        </div>
+                    </div>
+                    <div class="form-group row d-flex align-items-center mb-5">
+                        <label class="col-lg-2 form-control-label d-flex justify-content-lg-end">Phone</label>
+                        <div class="col-lg-6">
+                            <input type="text" class='form-control' name="profile-phone" value="{{ profile.phone if profile }}">
+                        </div>
+                    </div>
+                    <div class="form-group row d-flex align-items-center mb-5">
+                        <label class="col-lg-2 form-control-label d-flex justify-content-lg-end">Website</label>
+                        <div class="col-lg-6">
+                            <input type="text" class='form-control' name="profile-website" value="{{ profile.website if profile }}">
+                        </div>
+                    </div>
+                    <div class="col-10 ml-auto">
+                        <div class="section-title mt-3 mb-3">
+                            <h4>02. Address Informations</h4>
+                        </div>
+                    </div>
+                    <div class="form-group row d-flex align-items-center mb-5">
+                        <label class="col-lg-2 form-control-label d-flex justify-content-lg-end">Address</label>
+                        <div class="col-lg-6">
+                            <input type="text" class='form-control' name="profile-address" value="{{ profile.address if profile }}">
+                        </div>
+                    </div>
+                    <div class="form-group row d-flex align-items-center mb-5">
+                        <label class="col-lg-2 form-control-label d-flex justify-content-lg-end">City</label>
+                        <div class="col-lg-6">
+                            <input type="text" class='form-control' name="profile-city" value="{{ profile.city if profile }}">
+                        </div>
+                    </div>
+                    <div class="form-group row d-flex align-items-center mb-5">
+                        <label class="col-lg-2 form-control-label d-flex justify-content-lg-end">State</label>
+                        <div class="col-lg-6">
+                            <input type="text" class='form-control' name="profile-country" value="{{ profile.country if profile }}">
+                        </div>
+                    </div>
+                    <div class="form-group row d-flex align-items-center mb-5">
+                        <label class="col-lg-2 form-control-label d-flex justify-content-lg-end">Postcode</label>
+                        <div class="col-lg-6">
+                            <input type="text" class='form-control' name="profile-postcode" value="{{ profile.postcode if profile }}">
+                        </div>
+                    </div>
+                    <div class="em-separator separator-dashed"></div>
+                    <div class="text-right">
+                        <input type='submit' name='submit' class='btn btn-gradient-01' value='Save Changes'/>
+                        <input class="btn btn-shadow" name="reset" type="reset" value='Cancel'></input>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

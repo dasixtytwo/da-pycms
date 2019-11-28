@@ -1,0 +1,9 @@
+{% if not post %}
+    <input type='hidden' name='page_id' value='{{ page.id }}'/>
+{% endif %}
+<script type='text/javascript'>
+    window.visitor = true;
+</script>
+{% if not post %}
+    <script type='text/javascript' src='/static/site/js/main.js'></script>
+{% endif %}

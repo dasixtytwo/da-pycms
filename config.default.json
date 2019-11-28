@@ -1,0 +1,14 @@
+{
+  "db_host": "ds123224.mlab.com",
+  "db_name": "dfa_cms_db",
+  "db_pass": "4Egos6t8.Ago",
+  "db_port": 23224,
+  "db_user": "dfacms_admin",
+  "env": "dev",
+  "password": "password",
+  "gmail_user": "davide.agosti@gmail.com",
+  "gmail_app_password": "flkdogwxnrixyoxb",
+  "theme_dir": "H:\\Projects\\DFA_Workspaces\\Python\\DFA Projects\\DFA-CMS-master\\themes\\test-theme",
+  "uploads_dir": "H:\\Projects\\DFA_Workspaces\\Python\\DFA Projects\\DFA-CMS-master\\app\\static\\tmp\\uploads",
+  "username": "admin"
+}

@@ -1,0 +1,25 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+    <!-- Main -->
+    <div id="main">
+        <!-- Post -->
+        <section class="post">
+            <header class="major">
+                <span class="date editable" id='post-date'>{{ post.created_at.strftime('%B %d, %Y') }}</span>
+                <h1 id='post-title' class='editable'>{{ post.title }}</h1>
+            </header>
+            <div class="image main">
+                <img src="/uploads/{{ post.get_field('post-image').filename }}" alt="" />
+            </div>
+            <div id='post-long-text' class='editable'>
+                <p>{{ post.content }}</p>
+                <p><i class='fa fa-tag'></i> {{ post.group }}</p>
+            </div>
+            <div id='full-text' class='editable'>
+                {{ post.data['full-text'] }}
+            </div>
+        </section>
+
+    </div>
+{% endblock %}

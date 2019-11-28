@@ -1,0 +1,46 @@
+{% extends 'admin/layout_admin.html' %}
+
+
+{% block admin_content %}
+<div class="row flex-row">
+    <div class="col-xl-12">
+        <!-- Form -->
+        <div class="widget has-shadow">
+            <div class="widget-header bordered no-actions d-flex align-items-center">
+                <h4>{{ media.name if media else 'Media' }}</h4>
+            </div>
+            <div class="widget-body">
+                <form method='POST' class='form' enctype='multipart/form-data'>
+                    <div class='page-info'>
+                        <div class="form-group row mb-3">
+                            <div class="col-xl-6 mb-3">
+                                <label class="form-control-label">Name<span class="text-danger ml-2">*</span></label>
+                                <input type="text"  name='media-name' value='{{ media.name if media }}' class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group row mb-3">
+                            <div class="col-xl-6 mb-3">
+                                <label class="form-control-label">File</label>
+                                <label class="form-control" for='media-file'>
+                                    {% if media.filename %}
+                                        {% if get_file_type(media.filename) == 'image' %}<img style='width: 100px;' src='/uploads/{{ media.filename }}'/><br>{% endif %}
+                                            <b>Current: {{ media.filename }}</b>
+                                    {% endif %}
+                                    <input type='file' name='media-file'>
+                                </label>
+                                {% include 'components/errors.html' %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class='text-right'>
+                        {% if media %}
+                            <input type='submit' name='delete' class='btn btn-gradient-01' value='Delete'/>
+                        {% endif %}
+                        <input type='submit' name='submit' class='btn btn-shadow btn-ok' value='Save Changes'/>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

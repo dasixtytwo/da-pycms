@@ -1,0 +1,17 @@
+{% macro render_field(field) %}
+  <div class="form-group row d-flex align-items-center mb-5">
+    <div class="col-lg-2 form-control-label d-flex justify-content-lg-end">{{ field.label }}</div>
+    <div class="col-lg-6">
+      <dd>{{ field(class='form-control' if field.type in ['StringField', 'PasswordField'], **kwargs)|safe }}
+      {% if field.errors %}
+        <ul class=errors>
+        {% for error in field.errors %}
+          <li>{{ error }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+      </dd>
+    </div>
+  </div>
+{% endmacro %}              
+                        

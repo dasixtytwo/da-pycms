@@ -1,0 +1,16 @@
+{
+  "fields": {
+    "image": {
+      "type": "media"
+    },
+    "post-short-text": {
+      "type": "string"
+    },
+    "some-other-text": {
+      "type": "textarea"
+    },
+    "new-image": {
+      "type": "media"
+    }
+  }
+}

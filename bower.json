@@ -1,0 +1,19 @@
+{
+  "name": "DFA-CMS-master",
+  "homepage": "https://github.com/davideagosti/python-dfa-cms",
+  "authors": [
+    "davideagosti <davide.a@dfadigitalagency.co.uk>"
+  ],
+  "description": "DFA CMS is a content management system",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "app/",
+    "test",
+    "tests"
+  ],
+  "dependencies": {}
+}

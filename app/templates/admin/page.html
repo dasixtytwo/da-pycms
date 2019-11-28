@@ -1,0 +1,148 @@
+{% extends 'admin/layout_admin.html' %}
+
+
+{% block admin_content %}
+<!-- Start Form -->
+<form class="needs-validation" method='POST' class='form' enctype='multipart/form-data'>
+    <div class="row flex-row">
+        <div class="col-xl-9 col-md-8">
+            <div class="widget has-shadow">
+                <div class="widget-header bordered no-actions d-flex align-items-center">
+                    <h4>{{ page.name if page }}</h4>
+                </div>
+                <div class="widget-body">
+                    <div class="form-group row mb-3">
+                        <div class="col-xl-12 mb-3">
+                            <label class="form-control-label d-flex">Title</label>
+                            <input type="text" name='page-name' class="form-control" value='{{ page.name.capitalize() if page }}'>
+                            <label class="form-control-label pl-3 pt-2"><strong><em>permalink: </em></strong>{{ page.slug if page }}</label>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-3">
+                        <div class="col-xl-12 mb-3">
+                            <label class="form-control-label d-flex">Body</label>
+                            <textarea id="page-content-editor" class='form-control' name='page-content'>{{ page.content|safe if page else ''}}</textarea>
+                        </div>
+                    </div>
+                    <!-- Start Custom Fields -->
+                    {% if page and template_config %}
+                        <div class='push-down'>
+                            <h3>Custom fields</h3>
+                            <div class='push-down template-fields'>
+                                {% for name, field_config in template_config.fields.items() %}
+                                    <div class='template-fields-field'>
+                                        {% if field_config.type == 'string' %}
+                                            <div class="form-group row mb-5">
+                                                <div class="col-xl-12 mb-3">
+                                                    <label class="form-control-label d-flex">{{ name }}</label>
+                                                    <input type='text' class='form-control' name='template-field_{{ name }}' value='{{ page.get_field(name) }}'/>
+                                                </div>
+                                            </div>
+                                        {% elif field_config.type == 'textarea' %}
+                                            <div class="form-group row mb-5">
+                                                <div class="col-xl-12 mb-3">
+                                                    <label class="form-control-label d-flex">{{ name }}</label>
+                                                    <textarea id="summernote" class='form-control' name='template-field_{{ name }}'>{{ page.get_field(name) }}</textarea>
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+                    <!-- End Custom Fields -->
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-4">
+             <div class="widget has-shadow">
+                <div class="widget-body">
+                    <div class="form-group row d-flex mb-5">
+                        <div class="col-xl-12">
+                            <div class="styled-checkbox">
+                                <input type="checkbox" name="page-is_startpage" id="page-is_startpage" {% if page and page.is_startpage %}checked{% endif %}>
+                                <label for="page-is_startpage"> Use as startpage</label>
+                            </div>
+                        </div>
+                        <div class="col-xl-12 mt-3">
+                            <label class="form-control-label d-flex">Order</label>
+                            <input type="text" name='page-order' class="form-control" value='{{ page.order if page }}'>
+                        </div>
+                    </div>
+                </div>
+            </div>
+             <div class="widget has-shadow">
+                <div class="widget-body">
+                    <div class="form-group row d-flex mb-5">
+                        <div class="col-xl-12">
+                            <label class="form-control-label">Template<span class="text-danger ml-2">*</span></label>
+                            <div class="select">
+                                <select name="page-template" class="custom-select form-control" required>
+                                    {% for template in templates %}
+                                        <option {% if page and page.template == template.name %}selected{% endif %} value='{{ template.name }}'>{{ template.name }}</option>
+                                    {% endfor %}
+                                </select>
+                                <div class="invalid-feedback">
+                                    Please select an option
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+             <div class="widget has-shadow">
+                 <div class="widget-body">
+                     {% if page and template_config %}
+                         <div class='push-down'>
+                             <h3>Add Media</h3>
+                             <div class='push-down template-fields'>
+                                 {% for name, field_config in template_config.fields.items() %}
+                                     <div class='template-fields-field'>
+                                         {% if field_config.type == 'media' %}
+                                             {% if page.get_field(name) %}
+                                                 <img style='width: 100px;' src='/uploads/{{ page.get_field(name).filename }}'/>
+                                             {% endif %}
+                                             <label class="form-control-label d-flex mt-3">{{ name }}</label>
+                                             <input type='file' name='template-field_{{ name }}'/>
+                                         {% endif %}
+                                     </div>
+                                 {% endfor %}
+                             </div>
+                         </div>
+                     {% endif %}
+                 </div>
+            </div>
+        </div>
+        <div class="col-xl-12">
+            <div class="widget has-shadow">
+                <div class="widget-body">
+                    <!-- Start Buttons -->
+                    <div class='text-right'>
+                        {% if page %}
+                            <input type='submit' name='delete' class='btn btn-gradient-01' value='Delete'/>
+                            <input type='submit' name='delete-data' class='btn btn-shadow' value='Clear Data ({{ page.data.keys() | length }})'/>
+                            <a href='/{{ page.name }}' class='btn btn-primary btn-shadow'>Edit on site</a>
+                        {% endif %}
+                        <input type='submit' name='submit' class='btn btn-shadow btn-ok' value='Save Changes'/>
+                    </div>
+                    <!-- End Buttons -->
+                </div>
+            </div>
+        </div>
+    </div>
+ </form>
+<!-- End Form -->
+{% endblock %}
+{% block scripts %}
+    <script type='text/javascript' src='{{ url_for('static', filename='js/vendors/ckeditor/ckeditor.js') }}'></script>
+    <script>
+      CKEDITOR.replace('page-content-editor', {
+          height: 260
+      });
+      CKEDITOR.config.allowedContent = true;
+      CKEDITOR.config.autoParagraph = false;
+      CKEDITOR.config.extraAllowedContent = 'span(*)';
+      CKEDITOR.dtd.$removeEmpty.span = 0;
+    </script>
+{% endblock %}

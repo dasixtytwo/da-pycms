@@ -1,0 +1,61 @@
+@import 'mixins.scss';
+@import 'variables.scss';
+
+
+.media-gallery {
+    @include display-flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    .media-gallery-item {
+        width: 100px;
+        height: 100px;
+        background-size: 100%;
+        background-size: cover;
+        background-position: center;
+        margin: 1rem;
+        background-color: $color_primary_light;
+        position: relative;
+
+        .remove-btn {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 24px;
+            height: 24px;
+            text-align: center;
+            line-height: 24px;
+            background-color: $color_primary;
+            color: white;
+
+            .material-icons {
+                color: white;
+            }
+
+            &:hover {
+                cursor: pointer;
+                background-color: $color_primary_light;
+                
+                .material-icons {
+                    color: black;
+                }
+            }
+        }
+
+        .media-gallery-item-text {
+            width: 100%;
+            height: 100%;
+            @include display-flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: underline;
+            font-weight: 200;
+        }
+
+        &[selected="1"] {
+            outline-style: solid;
+            outline-width: 1px;
+            outline-color: $color_primary;
+        }
+    }
+}

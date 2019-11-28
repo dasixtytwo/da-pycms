@@ -1,0 +1,54 @@
+{% extends 'admin/layout_admin.html' %}
+
+
+{% block admin_content %}
+  <div class="row flex-row">
+    <div class="col-xl-12 col-md-6">
+        <!-- Begin Widget 09 -->
+        <div class="widget widget-09 has-shadow">
+            <!-- Begin Widget Header -->
+            <div class="widget-header d-flex align-items-center">
+                <h2>Widget</h2>
+                <div class="widget-options">
+                    <a href="/admin/widget" class="btn btn-shadow">Create Widget</a>
+                </div>
+            </div>
+            <!-- End Widget Header -->
+            <!-- Begin Widget Body -->
+            <div class="widget-body">
+                <div class="table-responsive">
+                <table id="sorting-table" class="table table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th>Icon</th>
+                            <th>Title</th>
+                            <th>Subtitle</th>
+                            <th>Date Start</th>
+                            <th>Date End</th>
+                            <th>Content</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for widget in widgets %}
+                        <tr>
+                            <td><i class="fa {{ widget.icon }}"></i></td>
+                            <td><a href='/admin/widget/{{ widget.id }}'>{{ widget.title }}</a></td>
+                            <td><span class="text-primary">{{ widget.subtitle }}</span></td>
+                            <td><span class="text-primary">{{ widget.date_start }}</span></td>
+                            <td><span class="text-primary">{{ widget.date_end }}</span></td>
+                            <td><span class="text-primary">{{ widget.content[:60]  }}....</span></td>
+                            <td class="td-actions">
+                              <a href="/admin/widget/{{ widget.id }}"><i class="la la-edit edit"></i></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            </div>
+        </div>
+        <!-- End Widget 09 -->
+    </div>
+</div>
+{% endblock %}

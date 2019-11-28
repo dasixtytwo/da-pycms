@@ -1,0 +1,88 @@
+{% extends 'layout.html' %}
+
+
+<!-- Begin Container -->
+{% block body %}
+  <!-- Begin Preloader -->
+  <div id="preloader">
+      <div class="canvas">
+          <img src="../static/image/logo.png" alt="logo" class="loader-logo">
+          <div class="spinner"></div>   
+      </div>
+  </div>
+  <!-- End Preloader -->
+  <div class="container-fluid no-padding h-100">
+    <div class="row flex-row h-100 bg-white">
+        <!-- Begin Left Content -->
+        <div class="col-xl-8 col-lg-6 col-md-5 no-padding">
+          <div class="elisyam-bg background-01">
+            <div class="elisyam-overlay overlay-01"></div>
+            <div class="authentication-col-content mx-auto">
+              <h1 class="gradient-text-01">
+                  Welcome To DFA-CMS!
+              </h1>
+              <span class="description">
+                  Some Subtitle goes here! 
+              </span>
+            </div>
+          </div>
+        </div>
+        <!-- End Left Content -->
+        <!-- Begin Right Content -->
+        <div class="col-xl-4 col-lg-6 col-md-7 my-auto no-padding">
+            <!-- Begin Form -->
+          <div class="authentication-form mx-auto">
+            <div class="logo-centered">
+              <a href="/">
+                <img src="../static/image/logo.png" alt="logo">
+              </a>
+            </div>
+            <h3>Sign In To DFA-Admin</h3>
+            <form method="POST">
+
+              <div class="group material-input">
+                <input type="text" name='username' required>
+                <span class="highlight"></span>
+                <span class="bar"></span>
+                <label>Username</label>
+              </div>
+
+              <div class="group material-input">
+                <input type="password" name='password' required>
+                <span class="highlight"></span>
+                <span class="bar"></span>
+                <label>Password</label>
+              </div>
+            
+              <div class="row">
+                <div class="col text-left">
+                  <div class="styled-checkbox">
+                    <input type="checkbox" name="checkbox" id="remeber">
+                    <label for="remeber">Remember me</label>
+                  </div>
+                </div>
+                <div class="col text-right">
+                  <a href="#">Forgot Password ?</a>
+                </div>
+              </div>
+
+              <div class="sign-btn text-center">
+                <input type='submit' class='btn btn-lg btn-gradient-01' value='Login'/>
+              </div>
+              
+            </form>
+            {% include 'components/errors.html' %}
+            <div class="register">
+              Don't have an account? 
+              <br>
+              <a href="#">Create an account</a>
+            </div>
+          </div>
+          <!-- End Form -->                        
+        </div>
+        <!-- End Right Content -->
+    </div>
+    <!-- End Row -->
+  </div>
+{% endblock %}
+<!-- End Container -->  

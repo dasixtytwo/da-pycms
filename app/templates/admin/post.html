@@ -1,0 +1,187 @@
+{% extends 'admin/layout_admin.html' %}
+
+
+{% block admin_content %}
+<!-- Form -->
+<form method='POST' class='form' enctype='multipart/form-data' style="width: 100%;">
+    <div class="row flex-row">
+        <div class="col-xl-9 col-md-8">
+            <div class="widget has-shadow">
+                <div class="widget-header bordered no-actions d-flex align-items-center">
+                    <h4>{{ post.title if post }}</h4>
+                </div>
+                <div class="widget-body">
+                    <div class="form-group row mb-3">
+                        <div class="col-xl-12">
+                            <label class="form-control-label">Title<span class="text-danger ml-2">*</span></label>
+                            <input type="text"  name='post-title' value='{{ post.title.capitalize() if post }}' class="form-control">
+                            <label class="form-control-label pl-2 pt-2"><strong><em>slug: </em></strong>{{ post.slug if post }}<span class="text-danger ml-2"></span></label>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-3">
+                        <div class="col-xl-12">
+                            <label class="form-control-label">Content<span class="text-danger ml-2">*</span></label>
+                            <textarea id="post-content-editor" class='form-control' name='post-content'>{{ post.content if post else '' }}</textarea>
+                        </div>
+                    </div>
+                    <!-- Start Custom fields -->
+                    {% if post and template_config %}
+                        <hr>
+                        <div class='push-down'>
+                            <h3>Post Custom fields</h3>
+                            <div class='push-down template-fields'>
+                                 {% for name, field_config in template_config.fields.items() %}
+                                    <div class='template-fields-field'>
+                                        {% if field_config.type == 'string' %}
+                                            <div class="form-group row mb-5">
+                                                <div class="col-xl-12 mb-3">
+                                                    <label class="form-control-label d-flex">{{ name }}</label>
+                                                    <input type='text' class='form-control' name='template-field_{{ name }}' value='{{ post.get_field(name) }}'/>
+                                                </div>
+                                            </div>
+                                        {% elif field_config.type == 'textarea' %}
+                                            <div class="form-group row mb-5">
+                                                <div class="col-xl-12 mb-3">
+                                                    <label class="form-control-label d-flex">{{ name }}</label>
+                                                    <textarea id="summernote" class='form-control' name='template-field_{{ name }}'>{{ post.get_field(name) }}</textarea>
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+                    <!-- End Custom fields-->
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-4">
+            <div class="widget has-shadow">
+                <div class="widget-body">
+                    <!-- Start Side Options -->
+                    <div class="form-group row mb-3">
+                        <div class="col-xl-12">
+                            <div class="styled-checkbox">
+                                <input type="checkbox" name="post-is_published" id="post-is_published" {% if post and not post.is_published %}{% else %}checked{% endif %}>
+                                <label for="post-is_published">Published</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="widget has-shadow">
+                <div class="widget-body">
+                    <div class="form-group row mb-3">
+                        <div class="col-xl-12 mb-3">
+                            <label for="post-template" class="form-control-label">Template<span class="text-danger ml-2">*</span></label>
+                            <select name="post-template" id="post-template" class="custom-select form-control">
+                                {% for template in templates %}
+                                    <option {% if post and post.template == template.name %}selected{% endif %} value='{{ template.name }}'>{{ template.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-xl-12 mb-3">
+                            <div class="styled-checkbox">
+                                <input type="checkbox" name="post-with_sidebar" id="post-with_sidebar" {% if post and not post.with_sidebar %}{% else %}checked{% endif %}>
+                                <label for="post-with_sidebar">Sidebar</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="widget has-shadow">
+                <div class="widget-body">
+                    <div class="form-group row mb-3">
+                        <div class="col-xl-12 mb-3">
+                            {% if groups %}
+                                <label class="form-control-label">Category<span class="text-danger ml-2">*</span></label>
+                                <select name="post-group" class="custom-select form-control">
+                                    <option {% if not post.group %}selected{% endif %} value=''>No group selected</option>
+                                    {% for group in groups %}
+                                        <option {% if post.group == group.name %}selected{% endif %} value='{{ group.name }}'>{{ group.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="widget has-shadow">
+                <div class="widget-body">
+                    <div class="form-group row mb-3">
+                        <div class="col-xl-12 mb-3">
+                            <label class="form-control-label">Featured Image</label>
+                            <label class="form-control" for='post-medias'>
+                                {% if post and post.medias %}
+                                    <div class='media-gallery'>
+                                        {% for media in post.medias %}
+                                            {% set file_type = get_file_type(media.filename) %}
+                                                <div data-id='{{ media.id }}' class='media-gallery-item' {% if file_type == 'image' %} style='background-image: url("/uploads/{{ media.filename }}");' {% endif %}>
+                                                    <span class='remove-btn'><i class='material-icons'>close</i></span>
+                                                    {% if file_type != 'image' %}<p class='media-gallery-item-text'>{{ file_type }}</p>{% endif %}
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                                <input type='file' name='new-medias' multiple>
+                            </label>
+                        </div>
+                    </div>
+                    <!-- Start Side Options -->
+                </div>
+            </div>
+            <div class="widget has-shadow">
+                 <div class="widget-body">
+                     {% if post and template_config %}
+                         <div class='push-down'>
+                             <h3>Add Slide</h3>
+                             <div class='push-down template-fields'>
+                                 {% for name, field_config in template_config.fields.items() %}
+                                     <div class='template-fields-field'>
+                                         {% if field_config.type == 'media' %}
+                                             {% if post.get_field(name) %}
+                                                 <img style='width: 100px;' src='/uploads/{{ post.get_field(name).filename }}' alt=""/>
+                                             {% endif %}
+                                             <label class="form-control-label d-flex mt-3">{{ name }}</label>
+                                             <input type='file' name='template-field_{{ name }}'/>
+                                         {% endif %}
+                                     </div>
+                                 {% endfor %}
+                             </div>
+                         </div>
+                     {% endif %}
+                 </div>
+            </div>
+        </div>
+        <div class="col-xl-12">
+            <div class="widget has-shadow">
+                <div class="widget-body">
+                    <!-- Start Buttons -->
+                    <div class="text-right">
+                        {% if post %}
+                            <input type='submit' name='delete' class='btn btn-gradient-01' value='Delete'/>
+                            <a href='/post/{{ post.id }}' class='btn btn-primary btn-shadow'>View</a>
+                        {% endif %}
+                        <input type='submit' name='submit' class='btn btn-shadow btn-ok' value='Save Changes'/>
+                    </div>
+                    <!-- End Buttons -->
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<!-- End Form -->
+{% endblock %}
+{% block scripts %}
+    <script type='text/javascript' src='{{ url_for('static', filename='js/vendors/ckeditor/ckeditor.js') }}'></script>
+    <script>
+      CKEDITOR.replace('post-content-editor', {
+          height: 260
+      })
+      CKEDITOR.config.allowedContent = true;
+      CKEDITOR.config.autoParagraph = false;
+      CKEDITOR.config.extraAllowedContent = 'span(*)';
+      CKEDITOR.dtd.$removeEmpty.span = 0;
+    </script>
+{% endblock %}

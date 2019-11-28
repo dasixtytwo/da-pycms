@@ -1,0 +1,45 @@
+{% extends 'admin/layout_admin.html' %}
+
+{% block admin_content %}
+    <div class="row flex-row">
+        <div class="col-xl-12">
+            <div class="widget  has-shadow">
+                <!-- Begin Widget Header -->
+                <div class="widget-header d-flex align-items-center">
+                    <h2>Media</h2>
+                    <div class="widget-options">
+                        <a href="/admin/media" class="btn btn-shadow">Add Media</a>
+                    </div>
+                </div>
+                <!-- End Widget Header -->
+                <div class="widget-body">
+                    <div class="row d-flex">
+                        {% for media in medias %}
+                            <div class="col-xl-2 mb-3" data-toggle="modal" data-target="#{{ media.name }}">
+                                <img class="img-fluid" src='/uploads/{{ media.filename }}' alt="...">
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% for media in medias %}
+        <div id="{{ media.name }}" class="modal fade">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content room-details">
+                    <div class="modal-header border-0">
+                        <h3 class="modal-title"><i class="la la-laptop la-2x align-middle pr-2"></i>{{ media.name }}</h3>
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span aria-hidden="true">×</span>
+                            <span class="sr-only">close</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <h3>Body</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}

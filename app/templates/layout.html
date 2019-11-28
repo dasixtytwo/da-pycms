@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<!--
+Item Name: DFA - Admin Dashboard Template
+Version: 0.1
+Author: Davide Agosti on base template by SAEROX
+-->
+<html>
+    <head>
+        {% block headFonts %}
+        {% endblock %}
+
+        <link rel='stylesheet' type='text/css' href='{{ url_for('static', filename='css/vendors/bootstrap.min.css') }}'/>
+        <link rel='stylesheet' type='text/css' href='{{ url_for('static', filename='css/style.css') }}'/>
+        <link rel='stylesheet' type='text/css' href='{{ url_for('static', filename='css/vendors/summernote-bs4.css') }}'/>
+
+        {% block customStyles %}
+        {% endblock %}
+
+        {% include 'components/assets.html' %} 
+            
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    </head>
+    <body id="page-top" class="bg-white">
+        {% block body %}
+        {% endblock %}
+        <!-- Scripts Vendors Js-->
+        <script type='text/javascript' src='{{ url_for('static', filename='js/base/jquery.min.js') }}'></script>
+        <script type='text/javascript' src='{{ url_for('static', filename='js/base/core.min.js') }}'></script>
+        <script type='text/javascript' src='{{ url_for('static', filename='js/vendors/summernote/summernote-bs4.min.js') }}'></script>
+        <!-- Begin Page Js -->
+        {% block scripts %}
+        {% endblock %}
+        <script type='text/javascript' src='{{ url_for('static', filename='js/app/app.js') }}'></script>
+    </body>
+</html>

@@ -1,0 +1,39 @@
+{% extends 'admin/layout_admin.html' %}
+
+
+{% block admin_content %}
+<div class="row flex-row">
+    <div class="col-xl-12 col-md-6">
+        <!-- Begin Widget 09 -->
+        <div class="widget has-shadow">
+            <!-- Begin Widget Header -->
+            <div class="widget-header bordered no-actions d-flex align-items-center">
+                <h2>Information</h2>
+            </div>
+            <!-- End Widget Header -->
+            <!-- Begin Widget Body -->
+            <div class="widget-body">
+                <form method='POST' class='form'>
+                    <div class='page-info'>
+                        <div class="form-group row mb-3">
+                            {% for k, v in db.items() %}
+                                {% if isinstance(v, basestring) %}
+                                    <div class="col-xl-12 mb-3">
+                                        <label class="form-control-label" for='{{ k }}'>
+                                            <p>{{ k }}</p>
+                                            <input type='text' class='form-control' name='{{ k }}' value='{{ v }}'/>
+                                        </label>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class='text-right'>
+                        <input type='submit' name='submit' class='btn btn-shadow btn-ok' value='Save Changes'/>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

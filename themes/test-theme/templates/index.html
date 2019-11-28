@@ -1,0 +1,7 @@
+{% extends 'layout.html' %}
+
+
+{% block body %}
+    <p class='editable' id='my-welcome-text'>Default</p>
+    <img src="/uploads/{{ page.get_field('template-field_image').filename }}" alt="" />
+{% endblock %}

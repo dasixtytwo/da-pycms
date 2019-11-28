@@ -1,0 +1,223 @@
+{% extends 'layout.html' %}
+
+{% set db = get_theme_db() %}
+{% set user = get_current_user() %}
+
+{% block headFonts %}
+    <link
+    href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700|Noto+Sans:400,700"
+    rel="stylesheet">
+{% endblock %}
+{% block body %}
+  <!-- Begin Preloader -->
+  <div id="preloader">
+      <div class="canvas">
+          <img src="/static/image/logo.png" alt="logo" class="loader-logo">
+          <div class="spinner"></div>   
+      </div>
+  </div>
+  <!-- End Preloader -->
+  <div class="page">
+    <!-- Begin Header -->
+    <header class="header">
+      <nav class="navbar fixed-top">         
+        <!-- Begin Search Box-->
+        <div class="search-box">
+          <button class="dismiss"><i class="ion-close-round"></i></button>
+          <form id="searchForm" action="#" role="search">
+            <input type="search" placeholder="Search something ..." class="form-control">
+          </form>
+        </div>
+        <!-- End Search Box-->
+        <!-- Begin Topbar -->
+        <div class="navbar-holder d-flex align-items-center align-middle justify-content-between">
+          <!-- Begin Logo -->
+          <div class="navbar-header">
+            <a href="db-default.html" class="navbar-brand">
+              <div class="brand-image brand-big">
+                <img src="/static/image/logo-big.png" alt="logo" class="logo-big">
+              </div>
+              <div class="brand-image brand-small">
+                <img src="/static/image/logo.png" alt="logo" class="logo-small">
+              </div>
+            </a>
+            <!-- Toggle Button -->
+            <a id="toggle-btn" href="#" class="menu-btn active">
+              <span></span>
+              <span></span>
+              <span></span>
+            </a>
+            <!-- End Toggle -->
+          </div>
+          <!-- End Logo -->
+          <!-- Begin Navbar Menu -->
+          <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center pull-right">
+              <!-- Search -->
+              <li class="nav-item d-flex align-items-center"><a id="search" href="#"><i class="la la-search"></i></a></li>
+              <!-- End Search -->
+              <!-- User -->
+              <li class="nav-item dropdown">
+                {% if user.avatar %}
+                  <a id="user" rel="nofollow" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link">
+                    <img src="/uploads/{{ user.avatar.filename }}" alt="..." class="avatar rounded-circle">
+                  </a>
+                {% else %}
+                  <a id="user" rel="nofollow" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link">
+                    <img src="../static/image/avatar/avatar-01.jpg" alt="..." class="avatar rounded-circle">
+                  </a>
+                {% endif %}
+                <ul aria-labelledby="user" class="user-size dropdown-menu">
+                  <li class="welcome">
+                    {% if user.avatar %}
+                        <a href="/admin/profile/{{ user.id }}" class="edit-profil"><i class="la la-gear"></i></a>
+                        <img src="/uploads/{{ user.avatar.filename }}" alt="..." class="rounded-circle">
+                    {% else %}
+                        <img src="../static/image/avatar/avatar-01.jpg" alt="..." class="rounded-circle">
+                    {% endif %}
+                  </li>
+                  <li>
+                    <a href="/admin/profile/{{ user.id }}" class="dropdown-item"> 
+                      Profile
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/admin/settings" class="dropdown-item no-padding-bottom"> 
+                      Settings
+                    </a>
+                  </li>
+                  <li class="separator"></li>
+                  <li>
+                    <a rel="nofollow" href="/admin/logout" class="dropdown-item logout text-center"><i class="ti-power-off"></i></a>
+                  </li>
+                </ul>
+              </li>
+              <!-- End User -->
+          </ul>
+          <!-- End Navbar Menu -->
+        </div>
+        <!-- End Topbar -->
+      </nav>
+    </header>
+    <!-- End Header -->
+    <!-- Begin Page Content -->
+    <div class="page-content d-flex align-items-stretch">
+      <div class="default-sidebar">
+        <!-- Begin Side Navbar -->
+        <nav class="side-navbar box-scroll sidebar-scroll">
+          <!-- Begin Main Navigation -->
+          <ul class="list-unstyled">
+            <li class='active'><a href="/admin/dashboard"><i class="la la-dashboard"></i><span>Dashboard</span></a></li>
+            <li>
+                <a href="#dropdown-pages" aria-expanded="false" data-toggle="collapse">
+                    <i class="la la-clone"></i><span>Pages</span></a>
+              <ul id="dropdown-pages" class="collapse list-unstyled pt-0">
+                <li><a href="/admin/pages" {% if 'pages' in request.url_rule.rule %}data-selected='1'{% endif %}><i class="la la-sticky-note"></i><span>Show Pages</span></a></li>
+                <li><a href="/admin/page" {% if 'pages' in request.url_rule.rule %}data-selected='1'{% endif %}><i class="la la-map"></i><span>Add Pages</span></a></li>
+              </ul>
+            </li>
+            <li>
+              <a href="#dropdown-posts" aria-expanded="false" data-toggle="collapse">
+                <i class="la la-edit"></i>
+                <span>Posts</span>
+              </a>
+              <ul id="dropdown-posts" class="collapse list-unstyled pt-0">
+                <li><a href="/admin/posts" {% if 'posts' in request.url_rule.rule %}data-selected='1'{% endif %}><i class="la la-database"></i><span>Show Posts</span></a></li>
+              </ul>
+              <ul id="dropdown-posts" class="collapse list-unstyled pt-0">
+                <li><a href="/admin/groups" {% if 'groups' in request.url_rule.rule %}data-selected='1'{% endif %}><i class="la la-tags"></i><span>Categories</span></a></li>
+              </ul>
+              <ul id="dropdown-posts" class="collapse list-unstyled pt-0">
+                <li><a href="/admin/group"><i class="la la-tag"></i><span>Add Category</span></a></li>
+              </ul>
+            </li>
+            <li><a href="/admin/medias"><i class="la la-camera"></i><span>Media</span></a></li>
+            <li>
+              <a href="#dropdown-users" aria-expanded="false" data-toggle="collapse">
+                <i class="la la-users"></i><span>Users</span>
+              </a>
+              <ul id="dropdown-users" class="collapse list-unstyled pt-0">
+                <li><a href="/admin/account-settings"><i class="la la-users"></i><span>All Users</span></a></li>
+                <li><a href="/admin/profile"><i class="la la-user-plus"></i><span>Add New</span></a></li>
+                <li><a href="/admin/profile/{{ user.id }}"><i class="la la-user-secret"></i><span>Your Profile</span></a></li>
+              </ul>
+            </li>
+            <li>
+              <a href="#dropdown-appearance" aria-expanded="false" data-toggle="collapse">
+                  <i class="la la-paint-brush"></i><span>Appearance</span>
+              </a>
+              <ul id="dropdown-appearance" class="collapse list-unstyled pt-0">
+                <li><a href="#" {% if 'pages' in request.url_rule.rule %}data-selected='1'{% endif %}><i class="la la-desktop"></i><span>Themes<span></a></li>
+                <li><a href="/admin/widgets" {% if 'widgets' in request.url_rule.rule %}data-selected='1'{% endif %}><i class="la la-archive"></i><span>Widgets</span></a></li>
+                <li><a href="#" {% if 'pages' in request.url_rule.rule %}data-selected='1'{% endif %}><i class="la la-navicon"></i><span>Menus</span></a></li>
+              </ul>
+            </li>
+            <li>
+              <a href="#dropdown-settings" aria-expanded="false" data-toggle="collapse">
+                <i class="la la-cogs"></i><span>Settings</span>
+              </a>
+              <ul id="dropdown-settings" class="collapse list-unstyled pt-0">
+                <li><a href="#"  {% if 'template-db' in request.url_rule.rule %}data-selected='1'{% endif %}><i class="la la-cog"></i><span>Custom Fields</span></a></li>
+                <li><a href="#"  {% if 'template-db' in request.url_rule.rule %}data-selected='1'{% endif %}><i class="la la-windows"></i><span>Theme settings</span></a></li>
+                <li><a href="#"  {% if 'template-db' in request.url_rule.rule %}data-selected='1'{% endif %}><i class="la la-envelope-o"></i><span>Contact Form</span></a></li>
+                <li><a href="/admin/theme-db" {% if 'theme-db' in request.url_rule.rule %}data-selected='1'{% endif %}><i class="la la-info"></i><span>Information</span></a></li>
+              </ul>
+            </li>
+          </ul>
+          <!-- End Main Navigation -->
+        </nav>
+        <!-- End Side Navbar -->
+      </div>
+      <!-- End Left Sidebar -->
+      <div class="content-inner">
+        <div class="container-fluid">
+          <!-- Begin Page Header-->
+          <div class="row">
+              <div class="page-header">
+                <div class="d-flex align-items-center">
+                    <h2 class="page-header-title">Dashboard</h2>
+                    <div>
+                    <div class="page-header-tools">
+                        <a class="btn btn-gradient-01" href="#">Add Widget</a>
+                    </div>
+                    </div>
+                </div>
+              </div>
+          </div>
+          <!-- End Page Header -->
+          <!-- Begin admin content row -->
+          {% block admin_content %}
+          {% endblock %}
+          <!-- End admin content Row -->
+        </div>
+        <!-- End Container -->
+        <!-- Begin Page Footer-->
+        <footer class="main-footer">
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 d-flex align-items-center justify-content-xl-start justify-content-lg-start justify-content-md-start justify-content-center">
+                    <p class="text-gradient-02">Design By DFA</p>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 d-flex align-items-center justify-content-xl-end justify-content-lg-end justify-content-md-end justify-content-center">
+                    <ul class="nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Documentation</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Changelog</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </footer>
+        <!-- End Page Footer -->
+        <a href="#" class="go-top"><i class="la la-arrow-up"></i></a>
+      </div>
+      <!-- End Content -->
+    </div>
+    <!-- End Page Content -->
+  </div>
+{% endblock %}
+{% block scripts %}
+    <!-- Begin Page Vendor Js -->
+    <script type='text/javascript' src='{{ url_for('static', filename='js/vendors/nicescroll/nicescroll.min.js') }}'></script>
+    <!-- End Page Vendor Js -->
+{% endblock %}

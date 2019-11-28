@@ -1,0 +1,58 @@
+{% extends 'admin/layout_admin.html' %}
+
+
+{% block admin_content %}
+<div class="row flex-row">
+    <div class="col-xl-12 col-md-6">
+        <!-- Begin Widget 09 -->
+        <div class="widget widget-09 has-shadow">
+            <!-- Begin Widget Header -->
+            <div class="widget-header d-flex align-items-center">
+                <h2>Posts</h2>
+                <div class="widget-options">
+                    <a href="/admin/post" class="btn btn-shadow">Create Post</a>
+                </div>
+            </div>
+            <!-- End Widget Header -->
+            <!-- Begin Widget Body -->
+            <div class="widget-body">
+                <div class="table-responsive">
+                <table id="sorting-table" class="table table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Author</th>
+                            <th>Category</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for post in posts %}
+                        <tr>
+                            <td><a href='/admin/post/{{ post.id }}'>{{ post.title }}</a></td>
+                            <td>{{ user.name }}</td>
+                            <td><span class="text-primary">{{ post.group }}</span></td>
+                            <td>
+                            {% if post.is_published %}
+                                <span class="text-primary">Published, {{ post.created_at.strftime('%B %d, %Y') }}</span>
+                                <!--<span class="badge-text badge-text-small success">Yes</span>-->
+                            {% else %}
+                                <span class="badge-text badge-text-small danger">No</span>
+                            {% endif %}
+                            </td>
+                            <td class="td-actions">
+                                <a href="/admin/post/{{ post.id }}"><i class="la la-edit edit"></i></a>
+                                <a href='/post/{{ post.id }}'><i class="la la-eye"></i></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            </div>
+        </div>
+        <!-- End Widget 09 -->
+    </div>
+</div>
+{% endblock %}
